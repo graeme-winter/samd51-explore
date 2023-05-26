@@ -1,22 +1,24 @@
+import sys
+
 import numpy
 from matplotlib import pyplot
 from PIL import Image
 
 import serial
 
-tty = serial.Serial("/dev/tty.usbmodem1102", 115200 * 8)
-
-null = tty.read(1)
+tty = serial.Serial(sys.argv[1])
 
 NX = 1280
 NY = 1280
-NN = NX * NY * 4
+NN = NX * 4
 
-block = tty.read(NN)
 
 # save to allow file comparison
 with open("out.dat", "wb") as f:
-    f.write(block)
+    for j in range(NY):
+        block = tty.read(NN)
+        f.write(block)
+        print(j)
 
 x = numpy.fromfile("out.dat", dtype=numpy.uint32, count=(NX * NY))
 m = x.reshape((NY, NX))
