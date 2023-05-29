@@ -18,7 +18,6 @@ with open("out.dat", "wb") as f:
     for j in range(NY):
         block = tty.read(NN)
         f.write(block)
-        print(j)
 
 x = numpy.fromfile("out.dat", dtype=numpy.uint32, count=(NX * NY))
 m = x.reshape((NY, NX))
